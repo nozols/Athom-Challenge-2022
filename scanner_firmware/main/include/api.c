@@ -22,7 +22,6 @@ esp_err_t api_get_address(void)
     return ESP_OK;
 }
 
-
 /**
  * @brief Request the name for an item from the API
  * 

@@ -1,0 +1,6 @@
+[submodule "scanner_firmware/components/u8g2"]
+	path = scanner_firmware/components/u8g2
+	url = https://github.com/olikraus/u8g2.git
+[submodule "scanner_firmware/components/rc522"]
+	path = scanner_firmware/components/rc522
+	url = https://github.com/abobija/esp-idf-rc522.git

@@ -97,48 +97,6 @@ esp_err_t http_event_handler(esp_http_client_event_t *evt)
 }
 
 /**
- * @brief Perform a get request
- * 
- * @param path The path to request
- * @param response_buffer The buffer for the response of the API
- * @return esp_err_t response status
- */
-esp_err_t http_get_request(char *path, char *response_buffer)
-{
-    esp_http_client_config_t config = {
-        .host = API_HOST,
-        .port = API_PORT,
-        .path = path,
-        .query = "esp",
-        .event_handler = http_event_handler,
-        .user_data = response_buffer,
-        .disable_auto_redirect = true,
-    };
-
-    esp_http_client_handle_t client = esp_http_client_init(&config);
-
-    esp_err_t err = esp_http_client_perform(client);
-
-    if (err == ESP_OK)
-    {
-        ESP_LOGI(
-            HTTP_TAG,
-            "HTTP GET status = %d, content_length = %11d",
-            esp_http_client_get_status_code(client),
-            esp_http_client_get_content_length(client)
-        );
-    }
-    else
-    {
-        ESP_LOGE(HTTP_TAG, "HTTP GET request failed: %s", esp_err_to_name(err));
-    }
-
-    esp_http_client_cleanup(client);
-
-    return err;
-}
-
-/**
  * @brief Perform a POST request
  * 
  * @param path The path to send the request to
@@ -155,7 +113,7 @@ esp_err_t http_post_request(char *path, char *response_buffer, cJSON *data)
         .event_handler = http_event_handler,
         .user_data = response_buffer,
         .disable_auto_redirect = true,
-        .method = HTTP_METHOD_POST
+        .method = HTTP_METHOD_POST,
     };
 
     esp_http_client_handle_t client = esp_http_client_init(&config);
@@ -177,7 +135,15 @@ esp_err_t http_post_request(char *path, char *response_buffer, cJSON *data)
     }
     else
     {
-        ESP_LOGE(HTTP_TAG, "HTTP GET request failed: %s", esp_err_to_name(err));
+        ESP_LOGE(
+            HTTP_TAG,
+            "HTTP GET request failed: %s (%s:%d%s) status: %d",
+            esp_err_to_name(err),
+            API_HOST,
+            API_PORT,
+            path,
+            esp_http_client_get_status_code(client)    
+        );
     }
 
     esp_http_client_cleanup(client);

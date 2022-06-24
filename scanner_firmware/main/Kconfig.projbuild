@@ -25,8 +25,14 @@ menu "APPLICATION SETTINGS"
             Set the host url of the API
     
     config API_PORT
-        string "API port"
+        int "API port"
         default 3000
         help
             Set the port of the API
+
+    config SHOW_DURATION
+        int "Show duration"
+        default 5000
+        help
+            Set the amount of ms a product is shown on the screen
 endmenu
