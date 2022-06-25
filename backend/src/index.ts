@@ -6,11 +6,14 @@ import ScannerRoutes from './routes/scanner'
 import ScanRoutes from './routes/scanneditem'
 import mongoose from 'mongoose'
 import createError from 'http-errors'
+import cors from 'cors'
+
+import './socket'
 
 // Quick 'n dirty method for determining whether mongoosejs is ready for requests
 let mongooseConnected = false
 
-mongoose.connect(process.env.MONGOOSE_PATH ? process.env.MONGOOSE_PATH : 'mongodb://localhost/mongoose')
+mongoose.connect(process.env.MONGOOSE_PATH ? process.env.MONGOOSE_PATH : 'mongodb://localhost/products')
     .then(_connection => {
         console.log('Started mongoose')
         mongooseConnected = true
@@ -24,6 +27,7 @@ const app = express()
 const router = express.Router()
 
 app.use(json())
+app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 
 // While mongoose is not connected, always return a service unavailable error

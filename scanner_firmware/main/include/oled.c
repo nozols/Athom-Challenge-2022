@@ -44,11 +44,14 @@ void oled_draw_centered_text(char** text, uint8_t lines)
 void oled_draw_product(char* name, double price)
 {
     // Convert the price into a string
-    char price_str[6] = {0};
-    sprintf(price_str, "%2.2f", price);
+    char price_str[16] = {0};
+    if (price > 999999999)
+        *price_str = "€€€€";
+    else
+        sprintf(price_str, "%2.2f", price);
 
     // sprintf does not like '€' in the format string, so it is prepended seperately
-    char total_price_str[10] = "€";
+    char total_price_str[20] = "€";
     strcat(total_price_str, price_str);
 
     char *text[2] = {
