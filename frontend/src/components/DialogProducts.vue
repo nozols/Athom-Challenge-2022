@@ -22,7 +22,7 @@
             >
                 <template v-slot:top>
                     <v-toolbar flat>
-                        <v-toolbar-title>Gescande Producten</v-toolbar-title>
+                        <v-toolbar-title>Producten</v-toolbar-title>
                         <v-spacer />
                         <v-btn
                             elevation="0"
